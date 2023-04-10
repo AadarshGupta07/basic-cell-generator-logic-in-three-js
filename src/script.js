@@ -121,7 +121,16 @@ window.onload = function() {
       inputs[i].value = "1";
     }
   };
-  
+
+// Added a grid to help with alignment
+const gridHelper = new THREE.GridHelper(10, 10);
+scene.add(gridHelper);
+gridHelper.position.y = -0.5
+
+// created a new axes helper
+const axesHelper = new THREE.AxesHelper(5);
+scene.add(axesHelper);
+
 /**
  *  Model
  */
