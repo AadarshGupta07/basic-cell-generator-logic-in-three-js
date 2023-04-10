@@ -76,13 +76,14 @@ controls.enableDamping = true
 // controls.maxPolarAngle = Math.PI /2.5
 
 /**
- * Cube
+ * Battery cell
  */
-const cube = new THREE.Mesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshBasicMaterial({ color: 0xff0000 })
-)
-scene.add(cube)
+// Created a battery cell geometry
+const cellGeometry = new THREE.BoxGeometry(1, 1, 1);
+const cellMaterial = new THREE.MeshNormalMaterial();
+const cellMesh = new THREE.Mesh(cellGeometry, cellMaterial);
+scene.add(cellMesh);
+
 
 
 /**
