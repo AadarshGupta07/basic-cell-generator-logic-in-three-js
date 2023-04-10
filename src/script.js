@@ -62,7 +62,7 @@ scene.add( light );
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 1000)
 camera.position.x = 1
 camera.position.y = 1
-camera.position.z = 1
+camera.position.z = 10
 scene.add(camera)
 
 // Controls
