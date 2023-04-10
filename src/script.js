@@ -111,8 +111,17 @@ function createBatteryPack() {
     scene.add(cellGroup);
 }
 
+let btn = document.getElementById('btn')
+btn.addEventListener('click', createBatteryPack)
 
-
+// reset input values
+window.onload = function() {
+    var inputs = document.getElementsByClassName("input");
+    for (var i = 0; i < inputs.length; i++) {
+      inputs[i].value = "1";
+    }
+  };
+  
 /**
  *  Model
  */
