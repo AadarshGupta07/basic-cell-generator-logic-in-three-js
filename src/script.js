@@ -84,6 +84,33 @@ const cellMaterial = new THREE.MeshNormalMaterial();
 const cellMesh = new THREE.Mesh(cellGeometry, cellMaterial);
 scene.add(cellMesh);
 
+ 
+// Created a group to hold all of the cells
+const cellGroup = new THREE.Group();
+
+// Created a function that will generate cells
+function createBatteryPack() {
+    const xDim = parseInt(document.getElementById("x-dim").value);
+    const yDim = parseInt(document.getElementById("y-dim").value);
+    const zDim = parseInt(document.getElementById("z-dim").value);
+    const cellSpacing = 1.2;
+
+
+    // Loop through each cell and position it in the grid
+    for (let x = 0; x < xDim; x++) {
+      for (let y = 0; y < yDim; y++) {
+        for (let z = 0; z < zDim; z++) {
+          const cell = new THREE.Mesh(cellGeometry, cellMaterial);
+          cell.position.set(x * cellSpacing, y * cellSpacing, z * cellSpacing);
+          cellGroup.add(cell);
+        }
+      }
+    }
+
+    // Add the cell group to the scene
+    scene.add(cellGroup);
+}
+
 
 
 /**
