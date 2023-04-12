@@ -78,41 +78,60 @@ controls.enableDamping = true
 /**
  * Battery cell
  */
-// Created a battery cell geometry
-const cellGeometry = new THREE.BoxGeometry(1, 1, 1);
-const cellMaterial = new THREE.MeshNormalMaterial();
-const cellMesh = new THREE.Mesh(cellGeometry, cellMaterial);
-scene.add(cellMesh);
 
- 
-// Created a group to hold all of the cells
-const cellGroup = new THREE.Group();
+gltfLoader.load(
+  'model.glb',
+  (gltf) => {
 
-// Created a function that will generate cells
-function createBatteryPack() {
-    const xDim = parseInt(document.getElementById("x-dim").value);
-    const yDim = parseInt(document.getElementById("y-dim").value);
-    const zDim = parseInt(document.getElementById("z-dim").value);
-    const cellSpacing = 1.2;
+    let model = gltf.scene.children[0]
 
+    let geo = model.geometry.clone()
+    let mat = new THREE.MeshNormalMaterial()
+    let m = new THREE.Mesh(geo, mat)
+    m.position.y =  0.85
 
-    // Loop through each cell and position it in the grid
-    for (let x = 0; x < xDim; x++) {
-      for (let y = 0; y < yDim; y++) {
-        for (let z = 0; z < zDim; z++) {
-          const cell = new THREE.Mesh(cellGeometry, cellMaterial);
-          cell.position.set(x * cellSpacing, y * cellSpacing, z * cellSpacing);
-          cellGroup.add(cell);
+    scene.add(m)
+
+    // Created a group to hold all of the cells
+    const cellGroup = new THREE.Group();
+
+    // Created a function that will generate cells
+    function createBatteryPack() {
+      //clearing the scene for new input values
+      cellGroup.clear()
+
+      //getting values from user
+      const xDim = parseInt(document.getElementById("x-dim").value);
+      const yDim = parseInt(document.getElementById("y-dim").value);
+      const zDim = parseInt(document.getElementById("z-dim").value);
+      const cellSpacing = 0.8;
+
+      // Loop through each cell and position it in the grid(3 loops cause we want to create 3 dimensional grid)
+      for (let x = 1; x <= xDim; x++) {
+        for (let y = 1; y <= yDim; y++) {
+          for (let z = 1; z <= zDim; z++) {
+            const cell = new THREE.Mesh(geo, mat);
+            scene.remove(m)
+            cell.position.set(x * cellSpacing -0.8, y * 1.8 , z * cellSpacing -0.8);
+            //rotating the even numbered ones to 180 degree from x axes
+            if(z % 2 == 0 && z > 1){
+              cell.rotation.x = Math.PI
+            }
+            cellGroup.add(cell);
+          }
         }
       }
+
+      // Add the cell group to the scene
+      scene.add(cellGroup);
+      //offsetting the group to match like if it is generated from the origin(without this offset the cellGroup will be a little above from the center of the scene)
+      cellGroup.position.y = - 0.95
     }
 
-    // Add the cell group to the scene
-    scene.add(cellGroup);
-}
-
-let btn = document.getElementById('btn')
-btn.addEventListener('click', createBatteryPack)
+    let btn = document.getElementById('btn')
+    btn.addEventListener('click', createBatteryPack)
+  }
+)
 
 // reset input values
 window.onload = function() {
